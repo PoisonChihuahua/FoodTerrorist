@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    image: postgres:11.7
+    container_name: FT-Db
+    ports:
+      - 5434:5432
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    hostname: postgres
+    user: root
+  db2:
+    image: redis:latest
+    container_name: FT-sessionDb
+    depends_on: 
+      - db
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+  web:
+    build: .
+    container_name: FT-web
+    depends_on: 
+      - db
+      - db2
+    tty: true
