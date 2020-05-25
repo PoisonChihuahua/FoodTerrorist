@@ -4,3 +4,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 WORKDIR /app
 
 COPY . .
+
+RUN dotnet restore
+ENTRYPOINT [ "dotnet", "watch", "run", "--no-restore", "--urls", "http://0.0.0.0:5000"]

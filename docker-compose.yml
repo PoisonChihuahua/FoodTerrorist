@@ -29,4 +29,7 @@ services:
     depends_on: 
       - db
       - db2
+    ports:
+      - "5010:5000"
+      - "5011:5001"
     tty: true
