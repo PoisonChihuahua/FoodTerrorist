@@ -1,1 +1,8 @@
+# ファイル
 *.md
+*.docker-compose.yml
+*.Dockerfile
+
+# フォルダ
+*/data
+*/postgres

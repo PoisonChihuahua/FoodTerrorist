@@ -34,6 +34,10 @@ namespace FoodTerrorist
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
+                endpoints.MapGet("/test", async context =>
+                {
+                    await context.Response.WriteAsync("this is test");
+                });
             });
         }
     }

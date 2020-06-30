@@ -32,4 +32,6 @@ services:
     ports:
       - "5010:5000"
       - "5011:5001"
+    volumes:
+      - ./app:/app
     tty: true
