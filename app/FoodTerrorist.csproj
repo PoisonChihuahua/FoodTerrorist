@@ -2,10 +2,31 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <SpaRoot>wwwroot\</SpaRoot>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
+    <!-- $(SpaRoot)\* をビルド時に出力しない -->
+    <Content Remove="$(SpaRoot)**" />
+  </ItemGroup>
+
+  <!-- dotnet publish 実行時に以下を実行する -->
+  <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- 本番環境用ビルド "npm run build" を実行する-->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+
+    <ItemGroup>
+      <!-- $(SpaRoot)dist\* を publish にコピーする -->
+      <DistFiles Include="$(SpaRoot)dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

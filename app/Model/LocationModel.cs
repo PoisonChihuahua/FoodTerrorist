@@ -11,7 +11,7 @@ namespace FoodTerrorist.Model {
     public class LocationModel {
 
         /// <summary>
-        /// フードID
+        /// 都道府県ID
         /// </summary>
         [Key]
         [Column ("location_id")]
