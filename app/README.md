@@ -18,3 +18,6 @@ dotnet ef database update
 # パッケージインストール
 dotnet add package Microsoft.AspNetCore.SpaServices.Extensions
 dotnet add package Nyami.AspNetCore.VueCliServices
+
+# フロントエンド実行
+npm run watch

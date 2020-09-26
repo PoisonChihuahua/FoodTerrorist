@@ -12,6 +12,7 @@ namespace FoodTerrorist.Model {
         /// </summary>
         [Key]
         [Column ("user_id")]
+        [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
         /// <summary>

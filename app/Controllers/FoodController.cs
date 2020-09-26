@@ -37,6 +37,32 @@ namespace FoodTerrorist.Controllers {
         /// <summary>
         /// フード検索(部分一致)
         /// </summary>
+        /// <param name="none">なし</param>
+        /// <returns>200：成功</returns>
+        [HttpGet]
+        public IActionResult GetFoodAll () {
+            FoodContext fc = context;
+            // 出力テスト
+            // foreach (FoodModel FoodModel in fc.FoodModel) {
+            //     Console.WriteLine ("id:{0}, name:{1}", FoodModel.FoodId, FoodModel.Name);
+            // }
+            // foreach (LocationModel LocationModel in fc.LocationModel) {
+            //     Console.WriteLine ("id:{0}, name:{1}", LocationModel.LocationId, LocationModel.Name);
+            // }
+            // foreach (UserModel UserModel in fc.UserModel) {
+            //     Console.WriteLine ("id:{0}, login_id:{1}, name:{2}, password:{3}", UserModel.UserId, UserModel.LoginId, UserModel.Name, UserModel.Password);
+            // }
+            IEnumerable<FoodModel> fm;
+            fm = fc.FoodModel;
+            return Json (fm, new JsonSerializerOptions {
+                Encoder = JavaScriptEncoder.Create (UnicodeRanges.All),
+                    WriteIndented = true,
+            });
+        }
+
+        /// <summary>
+        /// フード検索(部分一致)
+        /// </summary>
         /// <param name="name">名称</param>
         /// <returns>200：成功</returns>
         [HttpGet ("name")]
