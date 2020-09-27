@@ -1,18 +1,6 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col class="mb-4">
-        <v-combobox
-          v-model="select"
-          :items="items"
-          item-text="Name"
-          label="選択してください"
-          return-object
-          outlined
-          dense
-        ></v-combobox>
-        <v-btn small v-on:click="setSelect">SelectAPI実行</v-btn>
-      </v-col>
 
       <v-col
         class="mb-5"
@@ -24,6 +12,10 @@
         <v-text-field
             v-model="userName"
             label="ユーザ名"
+        ></v-text-field>
+        <v-text-field
+            v-model="loginId"
+            label="ログインID"
         ></v-text-field>
         <v-text-field
             v-model="password"
@@ -55,6 +47,7 @@
 
     data: () => ({
       userName: '',
+      loginId: '',
       password: '',
       passwordShow: false,
       reEnterPassword: '',
@@ -63,28 +56,10 @@
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
       },
-      select: [],
-      items: [],
     }),
     mounted() {
-      this.axios.get('http://localhost:5000/api/Food/')
-          .then((response) => {
-            this.items = response.data
-            this.select = this.items.find((x) => x.FoodId === 5);
-          })
-          .catch((e) => {
-            alert(e)
-          })
     },
     methods: {
-      setSelect() {
-        //console.log(this.select)
-        //console.log(this.userName)
-        console.log(this.$store.state.count)
-        //this.$store.commit('increment')
-        this.$store.dispatch('increment')
-        console.log(this.$store.getters.doneTodos)
-      },
       setRegister() {
         console.log(this.userName)
         console.log(this.password)
@@ -102,9 +77,11 @@
           console.log('パスワード一致')
           this.axios.post('http://localhost:5000/api/UserRegist/', {
             userName: this.userName,
-            password: this.password
+            password: this.password,
+            loginId: this.loginId
           })
           .then((response) => {
+            console.log(response)
             alert('更新成功')
           })
           .catch((e) => {

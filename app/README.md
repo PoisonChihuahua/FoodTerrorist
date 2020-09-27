@@ -5,7 +5,7 @@
 http://localhost:5000/api/Food
 
 ## ユーザー
-http://localhost:5000/api/User
+http://localhost:5000/api/UserRegist
 
 # 環境変数の設定
 env ASPNETCORE_ENVIRONMENT="Development" dotnet watch run

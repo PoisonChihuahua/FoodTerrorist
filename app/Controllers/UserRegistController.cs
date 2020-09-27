@@ -31,7 +31,6 @@ namespace FoodTerrorist.Controllers {
             this.configuration = configuration;
             this.logger = logger;
             this.context = context;
-            context.Database.EnsureCreatedAsync ();
         }
 
         /// <summary>
@@ -43,10 +42,9 @@ namespace FoodTerrorist.Controllers {
         public IActionResult RegistUser ([FromBody] UserReg userName) {
             FoodContext fc = context;
             UserModel u = new UserModel ();
-            u.LoginId = "999";
+            u.LoginId = userName.loginId;
             u.Name = userName.userName;
             u.Password = userName.password;
-            u.LocationId = 9;
             fc.UserModel.Add (u);
             context.SaveChanges ();
             return Ok ();
@@ -54,8 +52,8 @@ namespace FoodTerrorist.Controllers {
 
         public class UserReg {
             public string userName { get; set; }
-
             public string password { get; set; }
+            public string loginId { get; set; }
         };
     }
 }

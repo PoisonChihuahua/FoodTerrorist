@@ -31,7 +31,6 @@ namespace FoodTerrorist.Controllers {
             this.configuration = configuration;
             this.logger = logger;
             this.context = context;
-            context.Database.EnsureCreatedAsync ();
         }
 
         /// <summary>
