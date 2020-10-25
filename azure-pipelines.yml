@@ -16,14 +16,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd app
-    pwd
     ls -lrt
-  displayName: 'cd'
-
-- script: |
-    pwd
     npm install
     npm run build
-  workingDirectory: $(Agent.BuildDirectory)/app
+  workingDirectory: $(Agent.BuildDirectory)/s/app/wwwroot
   displayName: 'npm install and build'
