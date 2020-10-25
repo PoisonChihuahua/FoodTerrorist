@@ -17,7 +17,6 @@ steps:
 
 - script:
     cd app
-    pwd
   displayName: 'cd'
 
 - script: |
