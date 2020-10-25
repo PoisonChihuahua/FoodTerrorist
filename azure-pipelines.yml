@@ -18,5 +18,6 @@ steps:
 - script: |
     npm install
     cd app
+    pwd
     npm run build
   displayName: 'npm install and build'
