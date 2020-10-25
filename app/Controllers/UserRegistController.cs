@@ -45,15 +45,36 @@ namespace FoodTerrorist.Controllers {
             u.LoginId = userName.loginId;
             u.Name = userName.userName;
             u.Password = userName.password;
-            fc.UserModel.Add (u);
-            context.SaveChanges ();
-            return Ok ();
-        }
+            try {
+                fc.UserModel.Add (u);
+                context.SaveChanges ();
 
-        public class UserReg {
-            public string userName { get; set; }
-            public string password { get; set; }
-            public string loginId { get; set; }
-        };
+            } catch (Exception e) {
+                Console.WriteLine (e.ToString ());
+                return BadRequest(u);
+            }
+            return Ok (u);
+        }
+        /// <summary>
+        /// ログイン
+        /// </summary>
+        /// <param name="none">なし</param>
+        /// <returns>200：成功</returns>
+        [HttpGet]
+        public IActionResult LoginUser([FromBody] UserReg userName)
+        {
+            FoodContext fc = context;
+            IEnumerable<UserModel> fm = fc.UserModel.Where(x => x.LoginId.Contains(userName.loginId) && x.Password.Contains(userName.password)).ToList();
+            if( fm.Count() == 0 )
+            {
+                return BadRequest();
+            }
+            return Ok(fm);
+        }
     }
+    public class UserReg {
+        public string userName { get; set; }
+        public string password { get; set; }
+        public string loginId { get; set; }
+    };
 }

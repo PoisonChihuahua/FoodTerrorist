@@ -18,6 +18,10 @@ dotnet ef database update
 # パッケージインストール
 dotnet add package Microsoft.AspNetCore.SpaServices.Extensions
 dotnet add package Nyami.AspNetCore.VueCliServices
+dotnet add package Xunit
 
 # フロントエンド実行
 npm run watch
+
+# 単体テスト実行
+dotnet test -l "console;verbosity=detailed"

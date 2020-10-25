@@ -19,7 +19,7 @@ namespace FoodTerrorist.Controllers {
     public class FoodController : Controller {
         private IConfiguration configuration;
         private ILogger<FoodController> logger;
-        private readonly FoodContext context;
+        public readonly FoodContext context;
 
         /// <summary>
         /// コンストラクタ
@@ -41,18 +41,8 @@ namespace FoodTerrorist.Controllers {
         [HttpGet]
         public IActionResult GetFoodAll () {
             FoodContext fc = context;
-            // 出力テスト
-            // foreach (FoodModel FoodModel in fc.FoodModel) {
-            //     Console.WriteLine ("id:{0}, name:{1}", FoodModel.FoodId, FoodModel.Name);
-            // }
-            // foreach (LocationModel LocationModel in fc.LocationModel) {
-            //     Console.WriteLine ("id:{0}, name:{1}", LocationModel.LocationId, LocationModel.Name);
-            // }
-            // foreach (UserModel UserModel in fc.UserModel) {
-            //     Console.WriteLine ("id:{0}, login_id:{1}, name:{2}, password:{3}", UserModel.UserId, UserModel.LoginId, UserModel.Name, UserModel.Password);
-            // }
             IEnumerable<FoodModel> fm;
-            fm = fc.FoodModel;
+            fm = fc.FoodModel.ToList();
             return Json (fm, new JsonSerializerOptions {
                 Encoder = JavaScriptEncoder.Create (UnicodeRanges.All),
                     WriteIndented = true,
@@ -60,7 +50,7 @@ namespace FoodTerrorist.Controllers {
         }
 
         /// <summary>
-        /// フード検索(部分一致)
+        /// フード検索(名称)
         /// </summary>
         /// <param name="name">名称</param>
         /// <returns>200：成功</returns>
@@ -78,7 +68,7 @@ namespace FoodTerrorist.Controllers {
             //     Console.WriteLine ("id:{0}, login_id:{1}, name:{2}, password:{3}", UserModel.UserId, UserModel.LoginId, UserModel.Name, UserModel.Password);
             // }
             IEnumerable<FoodModel> fm;
-            fm = fc.FoodModel.Where (x => x.Name.Contains (name));
+            fm = fc.FoodModel.Where (x => x.Name.Contains (name)).ToList();
             return Json (fm, new JsonSerializerOptions {
                 Encoder = JavaScriptEncoder.Create (UnicodeRanges.All),
                     WriteIndented = true,
@@ -94,11 +84,55 @@ namespace FoodTerrorist.Controllers {
         public IActionResult GetFoodId (int id) {
             FoodContext fc = context;
             IEnumerable<FoodModel> fm;
-            fm = fc.FoodModel.Where (x => x.FoodId == id);
+            fm = fc.FoodModel.Where (x => x.FoodId == id).ToList();
             return Json (fm, new JsonSerializerOptions {
                 Encoder = JavaScriptEncoder.Create (UnicodeRanges.All),
                     WriteIndented = true,
             });
+        }
+        /// <summary>
+        /// フード追加
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>200：成功</returns>
+        [HttpPost("Add")]
+        public IActionResult AddFood(FoodModel food)
+        {
+            FoodContext fc = context;
+            try
+            {
+                fc.FoodModel.Add(food);
+                context.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return BadRequest(food);
+            }
+            return Ok(food);
+        }
+        /// <summary>
+        /// フード削除
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>200：成功</returns>
+        [HttpDelete("Delete")]
+        public IActionResult DeleteFood(FoodModel food)
+        {
+            FoodContext fc = context;
+            try
+            {
+                fc.FoodModel.Attach(food);
+                fc.FoodModel.Remove(food);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return BadRequest(food);
+            }
+            return Ok(food);
         }
     }
 }
