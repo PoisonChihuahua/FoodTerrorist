@@ -55,7 +55,7 @@ describe("Testing App component", () => {
     wrapper.vm.reEnterPassword = "1qaz2wsx";
     const button = wrapper.find('[id="b1"]');
     button.trigger("click");
-    console.log(wrapper.text());
+    //console.log(wrapper.text());
     // expect(setRegister).toBeCalled();
     expect(wrapper.isVueInstance).toBeTruthy();
   });

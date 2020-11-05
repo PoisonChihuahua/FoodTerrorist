@@ -13,7 +13,6 @@
             <v-radio label="はい"           value="radio-1" data-btn="radio" ></v-radio>
             <v-radio label="どちらでもない"  value="radio-2"></v-radio>
             <v-radio label="いいえ"         value="radio-3"></v-radio>
-            <v-radio label="知らんがな"      value="radio-4"></v-radio>
           </v-radio-group>
         </v-col>
       </v-row>
